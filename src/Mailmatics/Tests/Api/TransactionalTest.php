@@ -18,20 +18,7 @@ class TransactionalTest extends ApiTestCase
 {
     public function testAll()
     {
-        $response = $this->getResponseMock(json_encode([
-            'success' => true,
-            'data' => [
-                [
-                    'id' => 1,
-                ],
-                [
-                    'id' => 2,
-                ],
-            ],
-        ]));
-
-        $httpClient = $this->getHttpClientMock('transactional', 'GET', [], [], $response);
-        $client = $this->getClientMock($httpClient);
+        $client = $this->getClientMockForRequest('transactional', 'GET', [], false, [['id' => 1], ['id' => 2]]);
 
         $transactional = new Transactional($client);
         $resources = $transactional->all();
@@ -43,15 +30,7 @@ class TransactionalTest extends ApiTestCase
 
     public function testGet()
     {
-        $response = $this->getResponseMock(json_encode([
-            'success' => true,
-            'data' => [
-                'id' => 1,
-            ],
-        ]));
-
-        $httpClient = $this->getHttpClientMock('transactional/1', 'GET', [], [], $response);
-        $client = $this->getClientMock($httpClient);
+        $client = $this->getClientMockForRequest('transactional/1', 'GET', [], false, ['id' => 1]);
 
         $transactional = new Transactional($client);
         $resource = $transactional->get(1);
@@ -63,9 +42,7 @@ class TransactionalTest extends ApiTestCase
     {
         $preview = '<html><body>Transaction email body</body></html>';
 
-        $response = $this->getResponseMock($preview);
-        $httpClient = $this->getHttpClientMock('transactional/1/preview', 'GET', [], [], $response);
-        $client = $this->getClientMock($httpClient);
+        $client = $this->getClientMockForRequest('transactional/1/preview', 'GET', [], true, $preview);
 
         $transactional = new Transactional($client);
 

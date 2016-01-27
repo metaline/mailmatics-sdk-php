@@ -36,6 +36,28 @@ class ApiTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $path
+     * @param string $method
+     * @param array  $params
+     * @param bool   $asText
+     * @param mixed  $response
+     * @return \Mailmatics\Client
+     */
+    protected function getClientMockForRequest($path, $method, array $params, $asText, $response)
+    {
+        $client = $this->getMockBuilder('Mailmatics\\Client')
+            ->disableOriginalConstructor()
+            ->setMethods(['request'])
+            ->getMock();
+
+        $client->method('request')
+            ->with($path, $method, $params, $asText)
+            ->willReturn($response);
+
+        return $client;
+    }
+
+    /**
      * @param string   $path
      * @param string   $method
      * @param array    $params
