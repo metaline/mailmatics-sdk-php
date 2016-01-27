@@ -11,6 +11,7 @@
 
 namespace Mailmatics\HttpClient;
 
+use Mailmatics\Exception\ErrorException;
 use Mailmatics\HttpClientInterface;
 use Mailmatics\Response;
 
@@ -52,7 +53,14 @@ class CurlClient implements HttpClientInterface
         $headerSize = curl_getinfo($handle, CURLINFO_HEADER_SIZE);
         $statusCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
 
+        $errNo = curl_errno($handle);
+        $errDesc = curl_error($handle);
+
         curl_close($handle);
+
+        if ($errNo) {
+            throw new ErrorException($errDesc);
+        }
 
         $header = substr($curlResponse, 0, $headerSize);
         $body = substr($curlResponse, $headerSize);
