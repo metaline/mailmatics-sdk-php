@@ -38,7 +38,7 @@ class TransactionalTest extends ApiTestCase
         $this->assertEquals(['id' => 1], $resource);
     }
 
-    public function testPreview()
+    public function testHtmlPreview()
     {
         $preview = '<html><body>Transaction email body</body></html>';
 
@@ -46,6 +46,109 @@ class TransactionalTest extends ApiTestCase
 
         $transactional = new Transactional($client);
 
-        $this->assertEquals($preview, $transactional->preview(1));
+        $this->assertEquals($preview, $transactional->htmlPreview(1));
+    }
+
+    public function testTextPreview()
+    {
+        $text = <<<TXT
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+TXT;
+
+        $client = $this->getClientMockForRequest('transactional/1/text', 'GET', [], false, $text);
+
+        $transactional = new Transactional($client);
+
+        $this->assertEquals($text, $transactional->textPreview(1));
+    }
+
+    public function testSend()
+    {
+        $email = 'foo@example.com';
+        $data = [];
+
+        $params = [
+            'recipient' => $email,
+            'data'      => $data,
+        ];
+
+        $response = [
+            'id' => 123
+        ];
+
+        $client = $this->getClientMockForRequest('transactional/123abc/send', 'POST', $params, false, $response);
+
+        $transactional = new Transactional($client);
+        $this->assertEquals($response, $transactional->send('123abc', $email, $data));
+    }
+
+    public function testSendWithSchedule()
+    {
+        $email = 'foo@example.com';
+        $data = [];
+        $schedule = new \DateTime('2016-01-15 12:30:00', new \DateTimeZone('+05:00'));
+
+        $params = [
+            'recipient' => $email,
+            'data'      => $data,
+            'schedule'  => 1452843000, // timestamp: Fri, 15 Jan 2016 07:30:00 GMT
+        ];
+
+        $response = [
+            'id' => 123
+        ];
+
+        $client = $this->getClientMockForRequest('transactional/123abc/send', 'POST', $params, false, $response);
+
+        $transactional = new Transactional($client);
+        $this->assertEquals($response, $transactional->send('123abc', $email, $data, $schedule));
+    }
+
+    public function testTransacted()
+    {
+        /** @var \Mailmatics\Client $client */
+        $client = $this->getMockBuilder('Mailmatics\\Client')->disableOriginalConstructor()->getMock();
+
+        $transactional = new Transactional($client);
+        $transacted = $transactional->getTransacted(123);
+
+        $this->assertInstanceOf('Mailmatics\\Api\\Transacted', $transacted);
+    }
+
+    public function testReports()
+    {
+        $response = [
+            [
+                ['v' => '2015-12-30T17:34:28.120Z'],
+                ['v' => 0],
+                ['v' => 2],
+                ['v' => 3],
+                ['v' => 0],
+            ],
+            [
+                ['v' => '2015-12-31T17:34:28.120Z'],
+                ['v' => 1],
+                ['v' => 0],
+                ['v' => 0],
+                ['v' => 2],
+            ],
+            [
+                ['v' => '2016-01-01T17:34:28.120Z'],
+                ['v' => 1],
+                ['v' => 2],
+                ['v' => 3],
+                ['v' => 4],
+            ],
+        ];
+
+        $client = $this->getClientMockForRequest('transactional/1/reports', 'GET', [], false, $response);
+
+        $transactional = new Transactional($client);
+        $reports = $transactional->reports(1);
+
+        $this->assertEquals($response, $reports);
     }
 }

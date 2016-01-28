@@ -27,7 +27,7 @@ class Transactional extends AbstractApi
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @return TransactionalEmailResource
      */
     public function get($id)
@@ -36,63 +36,83 @@ class Transactional extends AbstractApi
     }
 
     /**
-     * @param string $id
-     * @param array  $data
-     *
      * @codeCoverageIgnore
      */
-    public function edit($id, array $data)
+    public function create()
     {
         // TODO
     }
 
     /**
-     * @param string $id
-     * @return mixed
+     * @codeCoverageIgnore
      */
-    public function preview($id)
+    public function edit()
+    {
+        // TODO
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function delete()
+    {
+        // TODO
+    }
+
+    /**
+     * @param int $id
+     * @return string
+     */
+    public function htmlPreview($id)
     {
         return $this->client->request('transactional/' . $id . '/preview', 'GET', [], true);
     }
 
     /**
-     * @param string $id
-     * @return mixed
-     *
-     * @codeCoverageIgnore
+     * @param int $id
+     * @return string
      */
-    public function text($id)
+    public function textPreview($id)
     {
-        // TODO
+        return $this->client->request('transactional/' . $id . '/text', 'GET', []);
     }
 
     /**
-     * @param string $id
-     *
-     * @codeCoverageIgnore
+     * @param int       $uuid
+     * @param string    $email
+     * @param array     $data
+     * @param \DateTime $schedule
+     * @return array
      */
-    public function transacted($id)
+    public function send($uuid, $email, $data, \DateTime $schedule = null)
     {
-        // TODO
+        $params = [
+            'recipient' => $email,
+            'data'      => $data,
+        ];
+
+        if ($schedule) {
+            $params['schedule'] = $schedule->getTimestamp();
+        }
+
+        return $this->client->request('transactional/' . $uuid . '/send', 'POST', $params);
     }
 
     /**
-     * @param string $id
-     *
-     * @codeCoverageIgnore
+     * @param int $id
+     * @return Transacted
+     */
+    public function getTransacted($id)
+    {
+        return new Transacted($this->client, $id);
+    }
+
+    /**
+     * @param int $id
+     * @return array
      */
     public function reports($id)
     {
-        // TODO
-    }
-
-    /**
-     * @param string $id
-     *
-     * @codeCoverageIgnore
-     */
-    public function send($id)
-    {
-        // TODO
+        return $this->client->request('transactional/' . $id . '/reports', 'GET', []);
     }
 }
