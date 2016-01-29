@@ -23,7 +23,7 @@ class StreamClient implements HttpClientInterface
     /**
      * {@inheritdoc}
      */
-    public function request($path, $method = 'GET', array $params = [], array $headers = [])
+    public function request($url, $method = 'GET', array $params = [], array $headers = [])
     {
         $headers['Content-type'] = 'application/json';
 
@@ -37,7 +37,7 @@ class StreamClient implements HttpClientInterface
             ]
         ]);
 
-        $fp = fopen('http://localhost:3000/api/' . $path, 'r', false, $context);
+        $fp = fopen($url, 'r', false, $context);
 
         $meta = stream_get_meta_data($fp);
         $body = stream_get_contents($fp);

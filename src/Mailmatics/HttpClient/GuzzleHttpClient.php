@@ -37,10 +37,9 @@ class GuzzleHttpClient implements HttpClientInterface
     /**
      * {@inheritdoc}
      */
-    public function request($path, $method = 'GET', array $params = [], array $headers = [])
+    public function request($url, $method = 'GET', array $params = [], array $headers = [])
     {
         $client = $this->getGuzzleClient();
-        $path = 'http://localhost:3000/api/' . $path;
 
         $ua = 'MailmaticsSDK/1.0 (' . $client->getConfig('headers')['User-Agent'] . ')';
         $headers['User-Agent'] = $ua;
@@ -52,7 +51,7 @@ class GuzzleHttpClient implements HttpClientInterface
             'http_errors' => false,
         ];
 
-        $response = $client->request($method, $path, $options);
+        $response = $client->request($method, $url, $options);
         $body = $response->getBody()->getContents();
 
         return new Response($response->getStatusCode(), json_decode($body, true));

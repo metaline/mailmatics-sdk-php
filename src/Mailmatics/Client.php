@@ -63,8 +63,10 @@ class Client
     public function __construct(array $credentials, array $options = [], HttpClientInterface $httpClient = null)
     {
         $this->credentials = $credentials;
-        $this->options = $options;
         $this->httpClient = $httpClient;
+
+        $defaultOptions = ['base_url' => 'http://www.mailmatics.com/api/'];
+        $this->options = array_merge($defaultOptions, $options);
     }
 
     /**
@@ -129,7 +131,8 @@ class Client
             'Authorization' => 'Bearer ' . $this->getToken(),
         ];
 
-        $response = $this->getHttpClient()->request($path, $method, $params, $headers);
+        $url = $this->options['base_url'] . $path;
+        $response = $this->getHttpClient()->request($url, $method, $params, $headers);
 
         $this->validateResponseStatusCode($response);
 
@@ -152,7 +155,7 @@ class Client
             if (isset($this->credentials['api'])) {
                 $this->token = $this->credentials['api'];
             } else {
-                $response = $this->getHttpClient()->request('auth/login', 'POST', [
+                $response = $this->getHttpClient()->request($this->options['base_url'] . 'auth/login', 'POST', [
                     'username' => isset($this->credentials['username']) ? $this->credentials['username'] : '',
                     'password' => isset($this->credentials['password']) ? $this->credentials['password'] : '',
                 ]);

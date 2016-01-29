@@ -35,6 +35,20 @@ class ClientTest extends ApiTestCase
         $this->assertSame($httpClient, $client->getHttpClient());
     }
 
+    public function testBaseUrlOption()
+    {
+        $response = $this->getResponseMock(json_encode(['success' => true, 'data' => ['foo' => 'bar']]));
+
+        $httpClient = $this->getMock('Mailmatics\\HttpClientInterface');
+        $httpClient->method('request')
+            ->with('http://example.com/api/foo')
+            ->willReturn($response);
+
+        $client = new Client(['api' => 'abc'], ['base_url' => 'http://example.com/api/'], $httpClient);
+
+        $this->assertEquals(['foo' => 'bar'], $client->request('foo'));
+    }
+
     /**
      * @expectedException \Mailmatics\Exception\BadResponseException
      * @expectedExceptionMessage The parameter "token" is missing

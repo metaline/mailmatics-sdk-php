@@ -76,7 +76,7 @@ class ApiTestCase extends \PHPUnit_Framework_TestCase
         $httpClient
             ->expects($this->once())
             ->method('request')
-            ->with($path, $method, $params, $headers)
+            ->with('http://www.mailmatics.com/api/' . $path, $method, $params, $headers)
             ->willReturn($response);
 
         return $httpClient;

@@ -19,12 +19,12 @@ use Mailmatics\Exception\ExceptionInterface;
 interface HttpClientInterface
 {
     /**
-     * @param string $path
+     * @param string $url
      * @param string $method
      * @param array  $params
      * @param array  $headers
      * @return Response
      * @throws ExceptionInterface
      */
-    public function request($path, $method = 'GET', array $params = [], array $headers = []);
+    public function request($url, $method = 'GET', array $params = [], array $headers = []);
 }

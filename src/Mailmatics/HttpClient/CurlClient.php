@@ -23,11 +23,11 @@ class CurlClient implements HttpClientInterface
     /**
      * {@inheritdoc}
      */
-    public function request($path, $method = 'GET', array $params = [], array $headers = [])
+    public function request($url, $method = 'GET', array $params = [], array $headers = [])
     {
         $handle = curl_init();
 
-        curl_setopt($handle, CURLOPT_URL, 'http://localhost:3000/api/' . $path);
+        curl_setopt($handle, CURLOPT_URL, $url);
         curl_setopt($handle, CURLOPT_HEADER, true);
         curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
 
