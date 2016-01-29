@@ -94,6 +94,30 @@ Get a single transactional email:
 $email = $client->getTransactional()->get(123);
 ```
 
+Send a transactional email:
+
+```php
+$data = [
+	'firstName' => 'John',
+	'lastName' => 'Smith'
+];
+
+$email = $client->getTransactional()->send(123, 'john@example.com', $data);
+```
+
+Send a scheduled transactional email:
+
+```php
+$data = [
+	'firstName' => 'John',
+	'lastName' => 'Smith'
+];
+
+$schedule = new DateTime('2018-12-25 12:30:00');
+
+$email = $client->getTransactional()->send(123, 'john@example.com', $data, $schedule);
+```
+
 ## License
 
 This library is licensed under the MIT License - see the LICENSE file for details.
