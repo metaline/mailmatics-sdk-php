@@ -11,15 +11,13 @@
 
 namespace Mailmatics\Api;
 
-use Mailmatics\Resource\TransactionalEmailResource;
-
 /**
  * Transactional
  */
 class Transactional extends AbstractApi
 {
     /**
-     * @return TransactionalEmailResource[]
+     * @return array[]
      */
     public function all()
     {
@@ -28,7 +26,7 @@ class Transactional extends AbstractApi
 
     /**
      * @param int $id
-     * @return TransactionalEmailResource
+     * @return array
      */
     public function get($id)
     {
