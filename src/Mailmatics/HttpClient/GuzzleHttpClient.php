@@ -47,14 +47,13 @@ class GuzzleHttpClient implements HttpClientInterface
         $options = [
             'json'        => $params,
             'headers'     => $headers,
-            'debug'       => true,
             'http_errors' => false,
         ];
 
         $response = $client->request($method, $url, $options);
         $body = $response->getBody()->getContents();
 
-        return new Response($response->getStatusCode(), json_decode($body, true));
+        return new Response($body, $response->getStatusCode(), $response->getReasonPhrase());
     }
 
     /**
