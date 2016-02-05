@@ -14,6 +14,9 @@ namespace Mailmatics\Tests;
 use Mailmatics\Response;
 use Mailmatics\Tests\Fixtures\Stringable;
 
+/**
+ * ResponseTest
+ */
 class ResponseTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()

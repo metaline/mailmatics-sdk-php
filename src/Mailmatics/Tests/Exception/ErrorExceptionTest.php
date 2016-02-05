@@ -13,6 +13,9 @@ namespace Mailmatics\Tests\Exception;
 
 use Mailmatics\Exception\ErrorException;
 
+/**
+ * ErrorExceptionTest
+ */
 class ErrorExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testMessageComposition()

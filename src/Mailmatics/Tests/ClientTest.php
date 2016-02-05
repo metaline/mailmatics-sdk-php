@@ -50,7 +50,7 @@ class ClientTest extends ApiTestCase
     }
 
     /**
-     * @expectedException \Mailmatics\Exception\BadResponseException
+     * @expectedException BadResponseException
      * @expectedExceptionMessage The parameter "token" is missing
      */
     public function testBadLoginResponse()
@@ -101,7 +101,7 @@ class ClientTest extends ApiTestCase
     }
 
     /**
-     * @dataProvider             badResponseBodyProvider
+     * @dataProvider badResponseBodyProvider
      *
      * @param mixed  $body
      * @param string $message
@@ -147,7 +147,7 @@ class ClientTest extends ApiTestCase
     }
 
     /**
-     * @expectedException \Mailmatics\Exception\ErrorException
+     * @expectedException ErrorException
      * @expectedExceptionMessage The error message
      */
     public function testErrorResponse()
@@ -204,7 +204,7 @@ class ClientTest extends ApiTestCase
     }
 
     /**
-     * @expectedException \Mailmatics\Exception\ErrorException
+     * @expectedException ErrorException
      * @dataProvider errorCodeProvider
      *
      * @param int $errorCode
@@ -289,7 +289,7 @@ class ClientTest extends ApiTestCase
     }
 
     /**
-     * @expectedException \Mailmatics\Exception\ErrorException
+     * @expectedException ErrorException
      * @expectedExceptionMessageRegExp #Wrong username or password#
      */
     public function testFailedLogin()

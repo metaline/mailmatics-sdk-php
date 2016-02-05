@@ -14,6 +14,9 @@ namespace Mailmatics\Tests\Api;
 use Mailmatics\Api\Transacted;
 use Mailmatics\Tests\ApiTestCase;
 
+/**
+ * TransactedTest
+ */
 class TransactedTest extends ApiTestCase
 {
     /**

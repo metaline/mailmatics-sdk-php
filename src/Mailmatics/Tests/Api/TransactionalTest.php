@@ -14,6 +14,9 @@ namespace Mailmatics\Tests\Api;
 use Mailmatics\Api\Transactional;
 use Mailmatics\Tests\ApiTestCase;
 
+/**
+ * TransactionalTest
+ */
 class TransactionalTest extends ApiTestCase
 {
     public function testAll()
