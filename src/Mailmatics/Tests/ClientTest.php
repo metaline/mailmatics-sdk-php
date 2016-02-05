@@ -14,6 +14,7 @@ namespace Mailmatics\Tests;
 use Mailmatics\Client;
 use Mailmatics\Exception\BadResponseException;
 use Mailmatics\Exception\ErrorException;
+use Mailmatics\Exception\ResourceNotFoundException;
 
 /**
  * ClientTest
@@ -49,10 +50,6 @@ class ClientTest extends ApiTestCase
         $this->assertEquals(['foo' => 'bar'], $client->request('foo'));
     }
 
-    /**
-     * @expectedException BadResponseException
-     * @expectedExceptionMessage The parameter "token" is missing
-     */
     public function testBadLoginResponse()
     {
         $credentials = ['username' => 'foo', 'password' => '123'];
@@ -61,6 +58,11 @@ class ClientTest extends ApiTestCase
         $httpClient = $this->getHttpClientMock('auth/login', 'POST', $credentials, [], $response);
 
         $client = new Client($credentials, [], $httpClient);
+
+        $this->setExpectedException(
+            BadResponseException::CLASS,
+            'The parameter "token" is missing'
+        );
 
         $client->getToken();
     }
@@ -112,16 +114,12 @@ class ClientTest extends ApiTestCase
         $httpClient = $this->getHttpClientMock('foo/bar', 'GET', [], [], $response);
         $client = $this->getClientMock($httpClient);
 
-        try {
-            $client->request('foo/bar');
-        } catch (BadResponseException $e) {
-            $this->assertEquals($message, $e->getMessage());
+        $this->setExpectedException(
+            BadResponseException::CLASS,
+            $message
+        );
 
-            return;
-        }
-
-        // You shall not pass!
-        $this->assertFalse(true);
+        $client->request('foo/bar');
     }
 
     public function badResponseBodyProvider()
@@ -146,10 +144,6 @@ class ClientTest extends ApiTestCase
         ];
     }
 
-    /**
-     * @expectedException ErrorException
-     * @expectedExceptionMessage The error message
-     */
     public function testErrorResponse()
     {
         $body = ['success' => false, 'error' => 'The error message'];
@@ -157,6 +151,11 @@ class ClientTest extends ApiTestCase
         $response = $this->getResponseMock(json_encode($body));
         $httpClient = $this->getHttpClientMock('foo/bar', 'GET', [], [], $response);
         $client = $this->getClientMock($httpClient);
+
+        $this->setExpectedException(
+            ErrorException::CLASS,
+            'The error message'
+        );
 
         $client->request('foo/bar');
     }
@@ -175,36 +174,29 @@ class ClientTest extends ApiTestCase
         $httpClient = $this->getHttpClientMock('foo/bar', 'GET', [], [], $response);
         $client = $this->getClientMock($httpClient);
 
-        try {
-            $client->request('foo/bar');
-        } catch (ErrorException $e) {
-            $this->assertEquals(
-                "An error occurred: The error message<br>{\n    \"foo\": \"bar\"\n}",
-                $e->getMessage()
-            );
+        $this->setExpectedException(
+            ErrorException::CLASS,
+            "An error occurred: The error message<br>{\n    \"foo\": \"bar\"\n}"
+        );
 
-            return;
-        }
-
-        // You shall not pass!
-        $this->assertFalse(true);
+        $client->request('foo/bar');
     }
 
-    /**
-     * @expectedException \Mailmatics\Exception\ResourceNotFoundException
-     * @expectedExceptionMessage Resource does not exist
-     */
     public function testResourceNotFoundException()
     {
         $response = $this->getResponseMock(json_encode(['success' => false, 'error' => 'Resource does not exist']), 404);
         $httpClient = $this->getHttpClientMock('foo/bar', 'GET', [], [], $response);
         $client = $this->getClientMock($httpClient);
 
+        $this->setExpectedException(
+            ResourceNotFoundException::CLASS,
+            'Resource does not exist'
+        );
+
         $client->request('foo/bar');
     }
 
     /**
-     * @expectedException ErrorException
      * @dataProvider errorCodeProvider
      *
      * @param int $errorCode
@@ -214,6 +206,11 @@ class ClientTest extends ApiTestCase
         $response = $this->getResponseMock(json_encode(['success' => false, 'error' => 'Whooops!']), $errorCode);
         $httpClient = $this->getHttpClientMock('foo/bar', 'GET', [], [], $response);
         $client = $this->getClientMock($httpClient);
+
+        $this->setExpectedException(
+            ErrorException::CLASS,
+            'An error occurred: Whooops!'
+        );
 
         $client->request('foo/bar');
     }
@@ -288,10 +285,6 @@ class ClientTest extends ApiTestCase
         $this->assertEquals('cba-123-foo', $client->getToken());
     }
 
-    /**
-     * @expectedException ErrorException
-     * @expectedExceptionMessageRegExp #Wrong username or password#
-     */
     public function testFailedLogin()
     {
         $credentials = ['username' => 'foo', 'password' => '123'];
@@ -300,6 +293,11 @@ class ClientTest extends ApiTestCase
         $httpClient = $this->getHttpClientMock('auth/login', 'POST', $credentials, [], $response);
 
         $client = new Client($credentials, [], $httpClient);
+
+        $this->setExpectedException(
+            ErrorException::CLASS,
+            'An error occurred: Wrong username or password'
+        );
 
         $client->getToken();
     }

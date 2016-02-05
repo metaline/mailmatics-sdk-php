@@ -30,16 +30,12 @@ class TransactedTest extends ApiTestCase
         /** @var \Mailmatics\Client $client */
         $client = $this->getMockBuilder('Mailmatics\\Client')->disableOriginalConstructor()->getMock();
 
-        try {
-            new Transacted($client, $id);
-        } catch (\InvalidArgumentException $e) {
-            $this->assertEquals($message, $e->getMessage());
+        $this->setExpectedException(
+            \InvalidArgumentException::CLASS,
+            $message
+        );
 
-            return;
-        }
-
-        // You shall not pass!
-        $this->assertFalse(true);
+        new Transacted($client, $id);
     }
 
     public function badTransactionalIdProvider()
