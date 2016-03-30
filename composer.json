@@ -3,6 +3,7 @@
     "type": "library",
     "description": "The Mailmatics PHP SDK",
     "keywords": ["sdk", "Mailmatics", "newsletter"],
+    "homepage": "https://github.com/metaline/mailmatics-sdk-php",
     "license": "MIT",
     "authors": [
         {
