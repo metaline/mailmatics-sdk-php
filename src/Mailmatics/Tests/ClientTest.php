@@ -55,7 +55,7 @@ class ClientTest extends ApiTestCase
         $credentials = ['username' => 'foo', 'password' => '123'];
 
         $response = $this->getResponseMock(json_encode(['success' => true]));
-        $httpClient = $this->getHttpClientMock('auth/login', 'POST', $credentials, [], $response);
+        $httpClient = $this->getHttpClientMock('api/auth/login', 'POST', $credentials, [], $response);
 
         $client = new Client($credentials, [], $httpClient);
 
@@ -72,7 +72,7 @@ class ClientTest extends ApiTestCase
         $credentials = ['username' => 'foo', 'password' => '123'];
 
         $response = $this->getResponseMock(json_encode(['success' => true, 'token' => 'foo-321-baz']));
-        $httpClient = $this->getHttpClientMock('auth/login', 'POST', $credentials, [], $response);
+        $httpClient = $this->getHttpClientMock('api/auth/login', 'POST', $credentials, [], $response);
 
         $client = new Client($credentials, [], $httpClient);
 
@@ -278,7 +278,7 @@ class ClientTest extends ApiTestCase
         $credentials = ['username' => 'foo', 'password' => '123'];
 
         $response = $this->getResponseMock(json_encode(['success' => true, 'token' => 'cba-123-foo']));
-        $httpClient = $this->getHttpClientMock('auth/login', 'POST', $credentials, [], $response);
+        $httpClient = $this->getHttpClientMock('api/auth/login', 'POST', $credentials, [], $response);
 
         $client = new Client($credentials, [], $httpClient);
 
@@ -290,7 +290,7 @@ class ClientTest extends ApiTestCase
         $credentials = ['username' => 'foo', 'password' => '123'];
 
         $response = $this->getResponseMock(json_encode(['success' => false, 'error' => 'Wrong username or password']));
-        $httpClient = $this->getHttpClientMock('auth/login', 'POST', $credentials, [], $response);
+        $httpClient = $this->getHttpClientMock('api/auth/login', 'POST', $credentials, [], $response);
 
         $client = new Client($credentials, [], $httpClient);
 

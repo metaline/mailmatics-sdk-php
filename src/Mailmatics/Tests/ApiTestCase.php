@@ -69,14 +69,14 @@ class ApiTestCase extends \PHPUnit_Framework_TestCase
     {
         $httpClient = $this->getMock('Mailmatics\\HttpClientInterface', ['request']);
 
-        if ($path !== 'auth/login') {
+        if ($path !== 'api/auth/login') {
             $headers['Authorization'] = 'Bearer abc';
         }
 
         $httpClient
             ->expects($this->once())
             ->method('request')
-            ->with('http://www.mailmatics.com/api/' . $path, $method, $params, $headers)
+            ->with('http://www.mailmatics.com/' . $path, $method, $params, $headers)
             ->willReturn($response);
 
         return $httpClient;

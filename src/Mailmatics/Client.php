@@ -65,7 +65,7 @@ class Client
         $this->credentials = $credentials;
         $this->httpClient = $httpClient;
 
-        $defaultOptions = ['base_url' => 'http://www.mailmatics.com/api/'];
+        $defaultOptions = ['base_url' => 'http://www.mailmatics.com/'];
         $this->options = array_merge($defaultOptions, $options);
     }
 
@@ -155,7 +155,7 @@ class Client
             if (isset($this->credentials['api'])) {
                 $this->token = $this->credentials['api'];
             } else {
-                $response = $this->getHttpClient()->request($this->options['base_url'] . 'auth/login', 'POST', [
+                $response = $this->getHttpClient()->request($this->options['base_url'] . 'api/auth/login', 'POST', [
                     'username' => isset($this->credentials['username']) ? $this->credentials['username'] : '',
                     'password' => isset($this->credentials['password']) ? $this->credentials['password'] : '',
                 ]);

@@ -54,7 +54,7 @@ class TransactedTest extends ApiTestCase
     public function testAll()
     {
         $client = $this->getClientMockForRequest(
-            'transactional/123/transacted',
+            'api/transactional/123/transacted',
             'GET',
             [],
             false,
@@ -71,7 +71,7 @@ class TransactedTest extends ApiTestCase
 
     public function testGet()
     {
-        $client = $this->getClientMockForRequest('transactional/123/transacted/456', 'GET', [], false, ['id' => 456]);
+        $client = $this->getClientMockForRequest('api/transactional/123/transacted/456', 'GET', [], false, ['id' => 456]);
 
         $transacted = new Transacted($client, 123);
         $resource = $transacted->get(456);

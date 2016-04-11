@@ -21,7 +21,7 @@ class Transactional extends AbstractApi
      */
     public function all()
     {
-        return $this->client->request('transactional');
+        return $this->client->request('api/transactional');
     }
 
     /**
@@ -30,7 +30,7 @@ class Transactional extends AbstractApi
      */
     public function get($id)
     {
-        return $this->client->request('transactional/' . $id);
+        return $this->client->request('api/transactional/' . $id);
     }
 
     /**
@@ -63,7 +63,7 @@ class Transactional extends AbstractApi
      */
     public function htmlPreview($id)
     {
-        return $this->client->request('transactional/' . $id . '/preview', 'GET', [], true);
+        return $this->client->request('api/transactional/' . $id . '/preview', 'GET', [], true);
     }
 
     /**
@@ -72,7 +72,7 @@ class Transactional extends AbstractApi
      */
     public function textPreview($id)
     {
-        return $this->client->request('transactional/' . $id . '/text', 'GET', []);
+        return $this->client->request('api/transactional/' . $id . '/text', 'GET', []);
     }
 
     /**
@@ -93,7 +93,7 @@ class Transactional extends AbstractApi
             $params['schedule'] = $schedule->getTimestamp();
         }
 
-        return $this->client->request('transactional/' . $uuid . '/send', 'POST', $params);
+        return $this->client->request('api/transactional/' . $uuid . '/send', 'POST', $params);
     }
 
     /**
@@ -111,6 +111,6 @@ class Transactional extends AbstractApi
      */
     public function reports($id)
     {
-        return $this->client->request('transactional/' . $id . '/reports', 'GET', []);
+        return $this->client->request('api/transactional/' . $id . '/reports', 'GET', []);
     }
 }
