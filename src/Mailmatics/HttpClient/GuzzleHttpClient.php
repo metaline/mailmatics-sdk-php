@@ -41,8 +41,8 @@ class GuzzleHttpClient implements HttpClientInterface
     {
         $client = $this->getGuzzleClient();
 
-        $ua = 'MailmaticsSDK/1.0 (' . $client->getConfig('headers')['User-Agent'] . ')';
-        $headers['User-Agent'] = $ua;
+        $headers['Accept'] = 'application/json';
+        $headers['User-Agent'] = 'MailmaticsSDK/1.0 (' . $client->getConfig('headers')['User-Agent'] . ')';
 
         $options = [
             'json'        => $params,

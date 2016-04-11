@@ -25,7 +25,9 @@ class StreamClient implements HttpClientInterface
      */
     public function request($url, $method = 'GET', array $params = [], array $headers = [])
     {
+        $headers['Accept'] = 'application/json';
         $headers['Content-type'] = 'application/json';
+        $headers['User-Agent'] = 'MailmaticsSDK/1.0 (Stream, PHP/' . PHP_VERSION . ')';
 
         $context = stream_context_create([
             'http' => [

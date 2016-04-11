@@ -31,8 +31,10 @@ class CurlClient implements HttpClientInterface
         curl_setopt($handle, CURLOPT_HEADER, true);
         curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
 
+        $headers['Accept'] = 'application/json';
         $headers['Content-Type'] = 'application/json';
         $headers['User-Agent'] = 'MailmaticsSDK/1.0 (Curl/' . curl_version()['version'] . ' PHP/' . PHP_VERSION . ')';
+
         $headers = $this->buildHeaders($headers);
         curl_setopt($handle, CURLOPT_HTTPHEADER, $headers);
 
