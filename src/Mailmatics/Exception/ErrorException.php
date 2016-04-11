@@ -12,7 +12,9 @@
 namespace Mailmatics\Exception;
 
 /**
- * ErrorException
+ * ErrorException.
+ *
+ * Exception thrown when a generic error occurs.
  */
 class ErrorException extends \RuntimeException implements ExceptionInterface
 {

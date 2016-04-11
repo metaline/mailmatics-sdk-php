@@ -12,7 +12,9 @@
 namespace Mailmatics\Exception;
 
 /**
- * ExceptionInterface
+ * Base ExceptionInterface.
+ *
+ * All exceptions implement this interface. This allow you to catching only exceptions thrown by this library.
  */
 interface ExceptionInterface
 {

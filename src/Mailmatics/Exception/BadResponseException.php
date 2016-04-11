@@ -12,7 +12,9 @@
 namespace Mailmatics\Exception;
 
 /**
- * InvalidResponseException
+ * BadResponseException.
+ *
+ * Exception thrown when the API response is not valid.
  */
 class BadResponseException extends \Exception implements ExceptionInterface
 {

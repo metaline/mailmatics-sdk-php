@@ -14,7 +14,7 @@ namespace Mailmatics\Exception;
 /**
  * ResourceNotFoundException.
  *
- * Exception when a resource does not exist (404 code).
+ * Exception thrown when a resource does not exist (404 code).
  */
 class ResourceNotFoundException extends \InvalidArgumentException implements ExceptionInterface
 {
