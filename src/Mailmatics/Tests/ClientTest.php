@@ -91,6 +91,15 @@ class ClientTest extends ApiTestCase
         $this->assertEquals($data, $client->request('foo/bar', 'GET', [], false));
     }
 
+    public function testJsonResponseWithoutData()
+    {
+        $response = $this->getResponseMock(json_encode(['success' => true]));
+        $httpClient = $this->getHttpClientMock('foo/bar', 'GET', [], [], $response);
+        $client = $this->getClientMock($httpClient);
+
+        $this->assertNull($client->request('foo/bar', 'GET', [], false));
+    }
+
     public function testTextResponse()
     {
         $data = ['foo' => 'bar'];

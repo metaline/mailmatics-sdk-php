@@ -215,14 +215,16 @@ class Client
             throw new Exception\BadResponseException('The parameter "success" is missing');
         }
 
+        if (!isset($body['data'])) {
+            $body['data'] = null;
+        }
+
         if ($body['success'] === false) {
             if (!isset($body['error'])) {
                 throw new Exception\BadResponseException('An error occurred, and the parameter "error" is missing');
             }
 
-            $data = isset($body['data']) ? $body['data'] : null;
-
-            throw new Exception\ErrorException($body['error'], $data);
+            throw new Exception\ErrorException($body['error'], $body['data']);
         }
 
         return $body;
