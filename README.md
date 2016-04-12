@@ -80,6 +80,37 @@ $guzzleClient = new GuzzleClient();
 $httpClient = new GuzzleHttpClient($guzzleClient);
 ```
 
+## Lists
+
+List all lists:
+
+```php
+$lists = $client->getLists()->all();
+```
+
+Get a single list:
+
+```php
+$list = $client-> getLists()->get(123);
+```
+
+### Subscription
+
+To subscribe a user to a list, you need the UUID of the list:
+
+```php
+$list = $client-> getLists()->get(123);
+$uuid = $list['uuid'];
+```
+
+> You can store the UUID in a database or in a file, to avoid the API call wait.
+
+With the UUID you can subscribe the user:
+
+```php
+$list = $client-> getLists()->addSubscriber($uuid, $email);
+```
+
 ## Transactional Emails
 
 List all transactional emails:
