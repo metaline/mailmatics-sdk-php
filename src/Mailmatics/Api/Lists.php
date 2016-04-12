@@ -16,4 +16,95 @@ namespace Mailmatics\Api;
  */
 class Lists extends AbstractApi
 {
+    /**
+     * @return array[]
+     */
+    public function all()
+    {
+        return $this->client->request('api/lists');
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function get($id)
+    {
+        return $this->client->request('api/lists/' . $id);
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function create()
+    {
+        // TODO
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function edit()
+    {
+        // TODO
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function delete()
+    {
+        // TODO
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function getSubscribers()
+    {
+        // TODO
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function getSubscriber()
+    {
+        // TODO
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function getSubscriberInfo()
+    {
+        // TODO
+    }
+
+    /**
+     * Adds a subscriber to a list.
+     *
+     * @param string $listUUID
+     * @param string $email
+     * @param array  $data
+     * @return array
+     */
+    public function addSubscriber($listUUID, $email, array $data = [])
+    {
+        $data['email'] = $email;
+
+        if (!isset($data['name'])) {
+            $data['name'] = $email;
+        }
+
+        return $this->client->request('subscribe/' . $listUUID, 'POST', $data);
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function editSubscriber()
+    {
+        // TODO
+    }
 }
