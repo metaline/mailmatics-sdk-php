@@ -94,21 +94,10 @@ Get a single list:
 $list = $client-> getLists()->get(123);
 ```
 
-### Subscription
-
-To subscribe a user to a list, you need the UUID of the list:
+Subscribe a user to a list:
 
 ```php
-$list = $client-> getLists()->get(123);
-$uuid = $list['uuid'];
-```
-
-> You can store the UUID in a database or in a file, to avoid the API call wait.
-
-With the UUID you can subscribe the user:
-
-```php
-$list = $client-> getLists()->addSubscriber($uuid, $email);
+$list = $client->getLists()->addSubscriber(123, $email);
 ```
 
 ## Transactional Emails
