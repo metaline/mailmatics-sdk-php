@@ -21,7 +21,7 @@ class TransactionalTest extends ApiTestCase
 {
     public function testAll()
     {
-        $client = $this->getClientMockForRequest('api/transactional', 'GET', [], false, [['id' => 1], ['id' => 2]]);
+        $client = $this->getClientMockForRequest('transactional', 'GET', [], false, [['id' => 1], ['id' => 2]]);
 
         $transactional = new Transactional($client);
         $resources = $transactional->all();
@@ -33,7 +33,7 @@ class TransactionalTest extends ApiTestCase
 
     public function testGet()
     {
-        $client = $this->getClientMockForRequest('api/transactional/1', 'GET', [], false, ['id' => 1]);
+        $client = $this->getClientMockForRequest('transactional/1', 'GET', [], false, ['id' => 1]);
 
         $transactional = new Transactional($client);
         $resource = $transactional->get(1);
@@ -45,7 +45,7 @@ class TransactionalTest extends ApiTestCase
     {
         $preview = '<html><body>Transaction email body</body></html>';
 
-        $client = $this->getClientMockForRequest('api/transactional/1/preview', 'GET', [], true, $preview);
+        $client = $this->getClientMockForRequest('transactional/1/preview', 'GET', [], true, $preview);
 
         $transactional = new Transactional($client);
 
@@ -61,7 +61,7 @@ consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
 Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 TXT;
 
-        $client = $this->getClientMockForRequest('api/transactional/1/text', 'GET', [], false, $text);
+        $client = $this->getClientMockForRequest('transactional/1/text', 'GET', [], false, $text);
 
         $transactional = new Transactional($client);
 
@@ -82,7 +82,7 @@ TXT;
             'id' => 123
         ];
 
-        $client = $this->getClientMockForRequest('api/transactional/123abc/send', 'POST', $params, false, $response);
+        $client = $this->getClientMockForRequest('transactional/123abc/send', 'POST', $params, false, $response);
 
         $transactional = new Transactional($client);
         $this->assertEquals($response, $transactional->send('123abc', $email, $data));
@@ -104,7 +104,7 @@ TXT;
             'id' => 123
         ];
 
-        $client = $this->getClientMockForRequest('api/transactional/123abc/send', 'POST', $params, false, $response);
+        $client = $this->getClientMockForRequest('transactional/123abc/send', 'POST', $params, false, $response);
 
         $transactional = new Transactional($client);
         $this->assertEquals($response, $transactional->send('123abc', $email, $data, $schedule));
@@ -147,7 +147,7 @@ TXT;
             ],
         ];
 
-        $client = $this->getClientMockForRequest('api/transactional/1/reports', 'GET', [], false, $response);
+        $client = $this->getClientMockForRequest('transactional/1/reports', 'GET', [], false, $response);
 
         $transactional = new Transactional($client);
         $reports = $transactional->reports(1);

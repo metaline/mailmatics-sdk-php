@@ -21,7 +21,7 @@ class ListsTest extends ApiTestCase
 {
     public function testAll()
     {
-        $client = $this->getClientMockForRequest('api/lists', 'GET', [], false, [['id' => 1], ['id' => 2]]);
+        $client = $this->getClientMockForRequest('lists', 'GET', [], false, [['id' => 1], ['id' => 2]]);
 
         $lists = new Lists($client);
         $resources = $lists->all();
@@ -33,7 +33,7 @@ class ListsTest extends ApiTestCase
 
     public function testGet()
     {
-        $client = $this->getClientMockForRequest('api/lists/1', 'GET', [], false, ['id' => 1]);
+        $client = $this->getClientMockForRequest('lists/1', 'GET', [], false, ['id' => 1]);
 
         $lists = new Lists($client);
         $resource = $lists->get(1);
@@ -44,7 +44,7 @@ class ListsTest extends ApiTestCase
     public function testAddSubscriber()
     {
         $client = $this->getClientMockForRequest(
-            'subscribe/abc123uuid456xyz',
+            'lists/abc123uuid456xyz/subscribe',
             'POST',
             [
                 'email' => 'mail@example.com',
@@ -63,7 +63,7 @@ class ListsTest extends ApiTestCase
     public function testAddSubscriberWithName()
     {
         $client = $this->getClientMockForRequest(
-            'subscribe/abc123uuid456xyz',
+            'lists/abc123uuid456xyz/subscribe',
             'POST',
             [
                 'email' => 'mail@example.com',

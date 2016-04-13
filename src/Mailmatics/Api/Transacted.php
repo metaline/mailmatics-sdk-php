@@ -54,7 +54,7 @@ class Transacted extends AbstractApi
      */
     public function all()
     {
-        return $this->client->request('api/transactional/' . $this->transactionalId . '/transacted');
+        return $this->client->request('transactional/' . $this->transactionalId . '/transacted');
     }
 
     /**
@@ -63,6 +63,6 @@ class Transacted extends AbstractApi
      */
     public function get($id)
     {
-        return $this->client->request('api/transactional/' . $this->transactionalId . '/transacted/' . $id);
+        return $this->client->request('transactional/' . $this->transactionalId . '/transacted/' . $id);
     }
 }

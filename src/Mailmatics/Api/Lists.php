@@ -21,7 +21,7 @@ class Lists extends AbstractApi
      */
     public function all()
     {
-        return $this->client->request('api/lists');
+        return $this->client->request('lists');
     }
 
     /**
@@ -30,7 +30,7 @@ class Lists extends AbstractApi
      */
     public function get($id)
     {
-        return $this->client->request('api/lists/' . $id);
+        return $this->client->request('lists/' . $id);
     }
 
     /**
@@ -97,7 +97,7 @@ class Lists extends AbstractApi
             $data['name'] = $email;
         }
 
-        return $this->client->request('subscribe/' . $listUUID, 'POST', $data);
+        return $this->client->request('lists/' . $listUUID . '/subscribe', 'POST', $data);
     }
 
     /**
