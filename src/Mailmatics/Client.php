@@ -152,8 +152,8 @@ class Client
     public function getToken()
     {
         if ($this->token === null) {
-            if (isset($this->credentials['api'])) {
-                $this->token = $this->credentials['api'];
+            if (isset($this->credentials['apiKey'])) {
+                $this->token = $this->credentials['apiKey'];
             } else {
                 $response = $this->getHttpClient()->request($this->options['base_url'] . 'auth/login', 'POST', [
                     'username' => isset($this->credentials['username']) ? $this->credentials['username'] : '',

@@ -36,7 +36,7 @@ PHP Mailmatics SDK supports two authentication modes:
 ```php
 use Mailmatics\Client;
 
-$client = new Client(['key' => '...']);
+$client = new Client(['apiKey' => '...']);
 ```
 
 **2. Simple login:**

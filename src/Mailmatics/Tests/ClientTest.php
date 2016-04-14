@@ -23,7 +23,7 @@ class ClientTest extends ApiTestCase
 {
     public function testNotHaveToPassHttpClientToConstructor()
     {
-        $client = new Client(['api' => 'abc']);
+        $client = new Client(['apiKey' => 'abc']);
 
         $this->assertInstanceOf('Mailmatics\\HttpClient\\StreamClient', $client->getHttpClient());
     }
@@ -31,7 +31,7 @@ class ClientTest extends ApiTestCase
     public function testPassHttpClientInterfaceToConstructor()
     {
         $httpClient = $this->getMock('Mailmatics\\HttpClientInterface');
-        $client = new Client(['api' => 'abc'], [], $httpClient);
+        $client = new Client(['apiKey' => 'abc'], [], $httpClient);
 
         $this->assertSame($httpClient, $client->getHttpClient());
     }
@@ -45,7 +45,7 @@ class ClientTest extends ApiTestCase
             ->with('http://api.example.com/foo')
             ->willReturn($response);
 
-        $client = new Client(['api' => 'abc'], ['base_url' => 'http://api.example.com/'], $httpClient);
+        $client = new Client(['apiKey' => 'abc'], ['base_url' => 'http://api.example.com/'], $httpClient);
 
         $this->assertEquals(['foo' => 'bar'], $client->request('foo'));
     }
@@ -277,7 +277,7 @@ class ClientTest extends ApiTestCase
 
     public function testToken()
     {
-        $client = new Client(['api' => 'foo-123-abc']);
+        $client = new Client(['apiKey' => 'foo-123-abc']);
 
         $this->assertEquals('foo-123-abc', $client->getToken());
     }
