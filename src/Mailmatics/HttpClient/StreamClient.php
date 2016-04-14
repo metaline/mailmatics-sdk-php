@@ -51,7 +51,7 @@ class StreamClient implements HttpClientInterface
         preg_match('#^HTTP\/([0-9\.]+) ([0-9]{3}) (.*?)$#', $statusLine, $matches);
 
         if (!isset($matches[3])) {
-            throw new ErrorException('The status line "%s" is not valid', $statusLine);
+            throw new ErrorException(sprintf('The status line "%s" is not valid', $statusLine));
         }
 
         $statusCode = $matches[2];
