@@ -84,12 +84,12 @@ class Lists extends AbstractApi
     /**
      * Adds a subscriber to a list.
      *
-     * @param string $listUUID
+     * @param int    $listId
      * @param string $email
      * @param array  $data
      * @return array
      */
-    public function addSubscriber($listUUID, $email, array $data = [])
+    public function addSubscriber($listId, $email, array $data = [])
     {
         $data['email'] = $email;
 
@@ -97,7 +97,7 @@ class Lists extends AbstractApi
             $data['name'] = $email;
         }
 
-        return $this->client->request('lists/' . $listUUID . '/subscribe', 'POST', $data);
+        return $this->client->request('lists/' . $listId . '/subscribe', 'POST', $data);
     }
 
     /**

@@ -82,7 +82,7 @@ $httpClient = new GuzzleHttpClient($guzzleClient);
 
 ## Lists
 
-List all lists:
+Get all lists:
 
 ```php
 $lists = $client->getLists()->all();
@@ -91,7 +91,7 @@ $lists = $client->getLists()->all();
 Get a single list:
 
 ```php
-$list = $client-> getLists()->get(123);
+$list = $client->getLists()->get(123);
 ```
 
 Subscribe a user to a list:
@@ -102,7 +102,7 @@ $list = $client->getLists()->addSubscriber(123, $email);
 
 ## Transactional Emails
 
-List all transactional emails:
+Get all transactional emails:
 
 ```php
 $emails = $client->getTransactional()->all();
