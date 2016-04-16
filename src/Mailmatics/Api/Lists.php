@@ -107,4 +107,29 @@ class Lists extends AbstractApi
     {
         // TODO
     }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function removeSubscriber()
+    {
+        // TODO
+    }
+
+    /**
+     * @param int $listId
+     * @param int $subscriberId
+     * @return bool
+     */
+    public function unsubscribe($listId, $subscriberId)
+    {
+        $data = [
+            'action'      => 'unsubscribe',
+            'subscribers' => [$subscriberId],
+        ];
+
+        $this->client->request('lists/' . $listId . '/subscribers/batch', 'POST', $data);
+
+        return true;
+    }
 }

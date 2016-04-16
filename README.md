@@ -121,6 +121,16 @@ $data = [
 $list = $client->getLists()->addSubscriber(123, $email, $data);
 ```
 
+### Unsubscribe a user
+
+To unsubscribe a user from a list, you must have his subscriber ID.
+
+```php
+$list = $client->getLists()->unsubscribe($listId, $subscriberId);
+```
+
+TODO: How can I obtain the subscriber ID?
+
 ## Transactional Emails
 
 Get all transactional emails:

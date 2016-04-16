@@ -44,7 +44,7 @@ class ListsTest extends ApiTestCase
     public function testAddSubscriber()
     {
         $client = $this->getClientMockForRequest(
-            'lists/abc123uuid456xyz/subscribe',
+            'lists/123/subscribe',
             'POST',
             [
                 'email' => 'mail@example.com',
@@ -55,7 +55,7 @@ class ListsTest extends ApiTestCase
         );
 
         $lists = new Lists($client);
-        $response = $lists->addSubscriber('abc123uuid456xyz', 'mail@example.com');
+        $response = $lists->addSubscriber(123, 'mail@example.com');
 
         $this->assertEquals(['id' => 123], $response);
     }
@@ -63,7 +63,7 @@ class ListsTest extends ApiTestCase
     public function testAddSubscriberWithName()
     {
         $client = $this->getClientMockForRequest(
-            'lists/abc123uuid456xyz/subscribe',
+            'lists/123/subscribe',
             'POST',
             [
                 'email' => 'mail@example.com',
@@ -74,8 +74,26 @@ class ListsTest extends ApiTestCase
         );
 
         $lists = new Lists($client);
-        $response = $lists->addSubscriber('abc123uuid456xyz', 'mail@example.com', ['name' => 'John Doe']);
+        $response = $lists->addSubscriber(123, 'mail@example.com', ['name' => 'John Doe']);
 
         $this->assertEquals(['id' => 456], $response);
+    }
+
+    public function testUnsubscribe()
+    {
+        $client = $this->getClientMockForRequest(
+            'lists/123/subscribers/batch',
+            'POST',
+            [
+                'action'      => 'unsubscribe',
+                'subscribers' => [456],
+            ],
+            false,
+            []
+        );
+
+        $lists = new Lists($client);
+
+        $this->assertTrue($lists->unsubscribe(123, 456));
     }
 }
