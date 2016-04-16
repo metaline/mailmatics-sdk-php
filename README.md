@@ -94,10 +94,31 @@ Get a single list:
 $list = $client->getLists()->get(123);
 ```
 
-Subscribe a user to a list:
+### Subscribe a user to a list
 
 ```php
-$list = $client->getLists()->addSubscriber(123, $email);
+$list = $client->getLists()->addSubscriber($listId, $email);
+```
+
+You can specify also first and last name:
+
+```php
+$data = [
+	'firstname' => 'John',
+	'lastname' => 'Smith',
+];
+
+$list = $client->getLists()->addSubscriber(123, $email, $data);
+```
+
+...or the fullname (Mailmatics automagicaly split first and last name):
+
+```php
+$data = [
+	'fullname' => 'John Smith',
+];
+
+$list = $client->getLists()->addSubscriber(123, $email, $data);
 ```
 
 ## Transactional Emails
