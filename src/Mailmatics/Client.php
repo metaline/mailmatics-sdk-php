@@ -11,7 +11,9 @@
 
 namespace Mailmatics;
 
+use Mailmatics\HttpClient\LoggedClient;
 use Mailmatics\HttpClient\StreamClient;
+use Psr\Log\LoggerInterface;
 
 /**
  * Client
@@ -32,6 +34,11 @@ class Client
      * @var HttpClientInterface
      */
     protected $httpClient;
+
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
 
     /**
      * @var string
@@ -56,17 +63,24 @@ class Client
     /**
      * Client constructor.
      *
-     * @param array               $credentials
-     * @param array               $options
+     * @param array $credentials
+     * @param array $options
      * @param HttpClientInterface $httpClient
+     * @param LoggerInterface $logger
      */
-    public function __construct(array $credentials, array $options = [], HttpClientInterface $httpClient = null)
-    {
+    public function __construct(
+        array $credentials,
+        array $options = [],
+        HttpClientInterface $httpClient = null,
+        LoggerInterface $logger = null
+    ) {
         $this->credentials = $credentials;
-        $this->httpClient = $httpClient;
+        $this->logger = $logger;
 
         $defaultOptions = ['base_url' => 'http://api.mailmatics.com/'];
         $this->options = array_merge($defaultOptions, $options);
+
+        $this->setHttpClient($httpClient);
     }
 
     /**
@@ -111,7 +125,7 @@ class Client
     public function getHttpClient()
     {
         if ($this->httpClient === null) {
-            $this->httpClient = new StreamClient();
+            $this->setHttpClient(new StreamClient());
         }
 
         return $this->httpClient;
@@ -172,6 +186,22 @@ class Client
         }
 
         return $this->token;
+    }
+
+    /**
+     * @param HttpClientInterface|null $httpClient
+     */
+    private function setHttpClient(HttpClientInterface $httpClient = null)
+    {
+        if ($httpClient === null) {
+            return;
+        }
+
+        if ($this->logger && !($httpClient instanceof LoggedClient)) {
+            $httpClient = new LoggedClient($httpClient, $this->logger);
+        }
+
+        $this->httpClient = $httpClient;
     }
 
     /**

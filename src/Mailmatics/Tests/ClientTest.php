@@ -36,6 +36,31 @@ class ClientTest extends ApiTestCase
         $this->assertSame($httpClient, $client->getHttpClient());
     }
 
+    public function testPassLoggerInterfaceToConstructor()
+    {
+        $logger = $this->getMock('Psr\\Log\\LoggerInterface');
+        $client = new Client(['apiKey' => 'abc'], [], null, $logger);
+
+        /** @var \Mailmatics\HttpClient\LoggedClient $httpClient */
+        $httpClient = $client->getHttpClient();
+
+        $this->assertInstanceOf('Mailmatics\\HttpClient\\LoggedClient', $httpClient);
+        $this->assertInstanceOf('Mailmatics\\HttpClient\\StreamClient', $httpClient->getOriginalHttpClient());
+    }
+
+    public function testPassHttpClientInterfaceAndLoggerInterfaceToConstructor()
+    {
+        $constructorHttpClient = $this->getMock('Mailmatics\\HttpClientInterface');
+        $logger = $this->getMock('Psr\\Log\\LoggerInterface');
+        $client = new Client(['apiKey' => 'abc'], [], $constructorHttpClient, $logger);
+
+        /** @var \Mailmatics\HttpClient\LoggedClient $httpClient */
+        $httpClient = $client->getHttpClient();
+
+        $this->assertInstanceOf('Mailmatics\\HttpClient\\LoggedClient', $httpClient);
+        $this->assertSame($constructorHttpClient, $httpClient->getOriginalHttpClient());
+    }
+
     public function testBaseUrlOption()
     {
         $response = $this->getResponseMock(json_encode(['success' => true, 'data' => ['foo' => 'bar']]));
