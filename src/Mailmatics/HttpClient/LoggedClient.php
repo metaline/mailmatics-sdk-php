@@ -46,26 +46,40 @@ class LoggedClient implements HttpClientInterface
      */
     public function request($url, $method = 'GET', array $params = [], array $headers = [])
     {
-        $response = $this->httpClient->request($url, $method, $params, $headers);
+        $request = [
+            'method'  => $method,
+            'url'     => $url,
+            'headers' => $headers,
+            'body'    => $params,
+        ];
 
-        $this->logger->info(
-            sprintf('Mailmatics request: %s %s', $method, $url),
-            [
-                'request'  => [
-                    'method'  => $method,
-                    'url'     => $url,
-                    'headers' => $headers,
-                    'body'    => $params,
-                ],
-                'response' => [
-                    'status' => $response->getStatusCode(),
-                    'reason' => $response->getReasonPhrase(),
-                    'body'   => $response->getBody(),
-                ],
-            ]
-        );
+        try {
+            $response = $this->httpClient->request($url, $method, $params, $headers);
 
-        return $response;
+            $this->logger->info(
+                sprintf('Mailmatics request: %s %s', $method, $url),
+                [
+                    'request'  => $request,
+                    'response' => [
+                        'status' => $response->getStatusCode(),
+                        'reason' => $response->getReasonPhrase(),
+                        'body'   => $response->getBody(),
+                    ],
+                ]
+            );
+
+            return $response;
+        } catch (\Exception $e) {
+            $this->logger->info(
+                sprintf('Mailmatics request: %s %s', $method, $url),
+                [
+                    'request'   => $request,
+                    'exception' => $e,
+                ]
+            );
+
+            throw $e;
+        }
     }
 
     /**

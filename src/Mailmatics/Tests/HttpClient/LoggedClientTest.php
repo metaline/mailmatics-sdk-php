@@ -57,4 +57,41 @@ class LoggedClientTest extends ApiTestCase
 
         $this->assertSame($originalResponse, $response);
     }
+
+    public function testHttpClientThrownException()
+    {
+        $e = new \Exception();
+
+        $httpClient = $this->getMock('Mailmatics\\HttpClientInterface', ['request']);
+        $httpClient
+            ->method('request')
+            ->with('foo/bar', 'POST', ['foo' => 'baz'], ['Accept' => 'text/html'])
+            ->willThrowException($e);
+
+        $logger = $this->getMock('Psr\\Log\\LoggerInterface');
+        $logger
+            ->method('info')
+            ->with(
+                'Mailmatics request: POST foo/bar',
+                [
+                    'request'  => [
+                        'method'  => 'POST',
+                        'url'     => 'foo/bar',
+                        'headers' => ['Accept' => 'text/html'],
+                        'body'    => ['foo' => 'baz'],
+                    ],
+                    'exception' => $e,
+                ]
+            );
+
+        /**
+         * @var \Mailmatics\HttpClientInterface $httpClient
+         * @var \Psr\Log\LoggerInterface        $logger
+         */
+
+        $client = new LoggedClient($httpClient, $logger);
+
+        $this->setExpectedException('Exception');
+        $client->request('foo/bar', 'POST', ['foo' => 'baz'], ['Accept' => 'text/html']);
+    }
 }
