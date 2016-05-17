@@ -97,6 +97,26 @@ class Transactional extends AbstractApi
     }
 
     /**
+     * @param int       $uuid
+     * @param array     $recipients
+     * @param \DateTime $schedule
+     * @return array
+     */
+    public function sendBulk($uuid, $recipients, \DateTime $schedule = null)
+    {
+        $params = [
+            'recipient'  => $email,
+            'recipients' => $recipients,
+        ];
+
+        if ($schedule) {
+            $params['schedule'] = $schedule->getTimestamp();
+        }
+
+        return $this->client->request('transactional/' . $uuid . '/sendbulk', 'POST', $params);
+    }
+
+    /**
      * @param int $id
      * @return Transacted
      */
