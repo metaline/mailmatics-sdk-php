@@ -90,7 +90,8 @@ class Transactional extends AbstractApi
         ];
 
         if ($schedule) {
-            $params['schedule'] = $schedule->getTimestamp();
+            $params['schedule'] = $schedule->format('Y-m-d H:i:s');
+            $params['timezone'] = $schedule->getTimezone()->getName();
         }
 
         return $this->client->request('transactional/' . $uuid . '/send', 'POST', $params);

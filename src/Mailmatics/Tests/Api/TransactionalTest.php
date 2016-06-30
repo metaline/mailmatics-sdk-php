@@ -92,12 +92,13 @@ TXT;
     {
         $email = 'foo@example.com';
         $data = [];
-        $schedule = new \DateTime('2016-01-15 12:30:00', new \DateTimeZone('+05:00'));
+        $schedule = new \DateTime('2016-01-15 12:30:00', new \DateTimeZone('Europe/Paris'));
 
         $params = [
             'recipient' => $email,
             'data'      => $data,
-            'schedule'  => 1452843000, // timestamp: Fri, 15 Jan 2016 07:30:00 GMT
+            'schedule'  => '2016-01-15 12:30:00',
+            'timezone'  => 'Europe/Paris',
         ];
 
         $response = [
