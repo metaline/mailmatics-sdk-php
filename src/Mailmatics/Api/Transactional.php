@@ -105,7 +105,6 @@ class Transactional extends AbstractApi
     public function sendBulk($uuid, $recipients, \DateTime $schedule = null)
     {
         $params = [
-            'recipient'  => $email,
             'recipients' => $recipients,
         ];
 
