@@ -96,7 +96,7 @@ class Client
     }
 
     /**
-     * @return Api\Lists
+     * @return Api\Campaigns
      */
     public function getCampaigns()
     {
